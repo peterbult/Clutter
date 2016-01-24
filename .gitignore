@@ -1,0 +1,21 @@
+# ignore build files
+*.[oa]
+
+# ignore binary executables
+*.out
+
+# ignore temp files
+*~
+
+# ignore data files
+*.dat
+
+# ignore gnuplot scripts
+*.plt
+
+# ignore files in the executable folder
+exc/
+
+# ignore build products
+build/
+
