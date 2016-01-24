@@ -58,6 +58,22 @@ namespace Clutter {
 
             // Check for help request
             if ( mHelpFlag ) return;
+
+            // Check if short-format flag is present
+            auto it = mCommandMap.find( tag );
+
+            // If not: check if if the long-format flag is present
+            if ( it == mCommandMap.end() )
+                it = mCommandMap.find( label );
+
+            // If not: throw a parse failure
+            if ( it == mCommandMap.end() )
+                throw "error: parse failure: required option not found";
+
+            // If found: parse the values 
+            parse( value, it );
+
+            return;
         }
 
     template <typename T>
@@ -68,7 +84,22 @@ namespace Clutter {
 
             // Check for help request
             if ( mHelpFlag ) return;
+
+            // Check if short-format flag is present
+            auto it = mCommandMap.find( tag );
+
+            // If not: check if if the long-format flag is present
+            if ( it == mCommandMap.end() )
+                it = mCommandMap.find( label );
+
+            // If not: terminate the parse
+            if ( it == mCommandMap.end() )
+                return;
+
+            // If found: parse the values 
+            parse( value, it );
+
+            return;
         }
-    
 }
 
