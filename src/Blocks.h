@@ -9,6 +9,7 @@
 //
 
 #pragma once
+#include <vector>
 
 namespace Clutter {
     struct CommandBlock {

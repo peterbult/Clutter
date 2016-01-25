@@ -8,6 +8,8 @@
 // Version 1.0
 //
 
+#include "Clutter.h"
+
 namespace Clutter {
 
     // 
