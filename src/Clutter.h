@@ -49,7 +49,7 @@ namespace Clutter {
             std::vector<HelpBlock>  mHelpTree_requested;
 
             // Command map
-            std::map<string, CommandBlock> > mCommandMap;
+            std::map<string, CommandBlock> mCommandMap;
     };
 
 
