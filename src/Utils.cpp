@@ -35,7 +35,7 @@ namespace Clutter {
         // 
         // Test if a string is a value type
         //
-        bool isLabel( std::string tag )
+        bool isValue( std::string tag )
         {
             // Test by inversion
             return !isFlag(tag);
