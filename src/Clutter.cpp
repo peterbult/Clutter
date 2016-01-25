@@ -92,8 +92,8 @@ namespace Clutter {
         }
 
         // Check orphan options
-        for ( auto& block : mCommandMap ) {
-            if ( !block.processed ) {
+        for ( auto& map : mCommandMap ) {
+            if ( !map.second.processed ) {
                 throw "error: orphan options";
             }
         }
