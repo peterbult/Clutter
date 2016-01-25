@@ -41,6 +41,9 @@ namespace Clutter {
             template <typename T>
                 void parse( T& value, CommandBlock &block );
 
+            template <typename T>
+                void parse( std::vector<T>& value, CommandBlock &block );
+
             void end_parse();
     
         private:
@@ -136,11 +139,11 @@ namespace Clutter {
         }
 
     // Vector specialization
-    template <typename t>
+    template <typename T>
         void Clutter::parse( std::vector<T>& value, CommandBlock& block )
         {
             // Clear the values
-            values.clear();
+            value.clear();
 
             // Convert string to template type
             for ( auto& e : block.values ) {
