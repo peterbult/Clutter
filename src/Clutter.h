@@ -120,7 +120,7 @@ namespace Clutter {
                 printf( "warning: orhpan value\n" );
             
             // Convert string to template type
-            fromString<T>( block.values[0] );
+            value = fromString<T>( block.values[0] );
             
             // Mark block as processed
             block.processed = true;
