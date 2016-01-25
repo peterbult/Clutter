@@ -15,19 +15,18 @@ namespace Clutter {
     struct CommandBlock {
         // Internal Alias
         typedef std::string string;
-        typedef std::vector vector;
 
         // Constructor
         CommandBlock()=default;
-        CommandBlock( vector<string> _values ) : values(_values) { }
+        CommandBlock( std::vector<string> _values ) : values(_values) { }
 
         // Property functions
-        vector::size_type size() { return values.size(); }
+        std::vector<string>::size_type size() { return values.size(); }
     
         // Data members
         bool            processed = false;  // A state flag
 
-        vector<string>  values;             // The list of values
+        std::vector<string>  values;             // The list of values
     };
 
     struct HelpBlock {

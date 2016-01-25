@@ -27,7 +27,6 @@ namespace Clutter {
         private:
             // Define internal aliases
             typedef std::string string;
-            typedef std::vector vector;
 
         public:
             bool has_flag( std::string flag );
@@ -45,9 +44,9 @@ namespace Clutter {
     
         private:
             // Help members
-            bool                mHelpFlag = false;
-            vector<HelpBlock>   mHelpTree_required;
-            vector<HelpBlock>   mHelpTree_requested;
+            bool                    mHelpFlag = false;
+            std::vector<HelpBlock>  mHelpTree_required;
+            std::vector<HelpBlock>  mHelpTree_requested;
 
             // Command map
             std::map<string, CommandBlock> > mCommandMap;
@@ -137,7 +136,7 @@ namespace Clutter {
 
     // Vector specialization
     template <typename t>
-        void Clutter::parse( vector<T>& value, CommandBlock& block )
+        void Clutter::parse( std::vector<T>& value, CommandBlock& block )
         {
             // Clear the values
             values.clear();
