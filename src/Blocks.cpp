@@ -15,7 +15,7 @@
 namespace Clutter {
     void HelpBlock::print()
     {
-        printf( "%s %s %s\n", mTag, mLabel, mHelp );
+        printf( "%s %s %s\n", tag.c_str(), label.c_str(), help.c_str() );
     }
 }
 
