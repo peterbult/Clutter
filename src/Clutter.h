@@ -13,6 +13,7 @@
 #include <map>
 
 #include "Blocks.h"
+#include "Convert.h"
 
 namespace Clutter {
 
