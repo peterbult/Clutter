@@ -126,30 +126,6 @@ namespace Clutter {
             block.processed = true;
         }
 
-    // Boolian specialization
-    template <>
-        void Clutter::parse( bool& value, CommandBlock &block ) 
-        {
-            // Test block size
-            if ( block.size() > 0 )
-                printf( "warning: orhpan value\n" );
-
-            // Flip value
-            value = !value;
-        }
-
-    // String specialization
-    template <>
-        void Clutter::parse( string& value, CommandBlock &block )
-        {
-            // Test block size
-            if ( block.size() > 1 )
-                printf( "warning: orhpan value\n" );
-
-            // Flip value
-            value = block.values[0];
-        }
-
     // Vector specialization
     template <typename T>
         void Clutter::parse( std::vector<T>& value, CommandBlock& block )

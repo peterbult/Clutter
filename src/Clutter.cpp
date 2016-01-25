@@ -41,7 +41,7 @@ namespace Clutter {
                 // Load the next tag
                 tag = string( argv[i] );
                 // Test of tag type
-                if ( Utils::isFlag( tag ) ) break;                      // flag found: block is complete
+                if ( Utils::isFlag( tag ) ) { i--; break; }                    // flag found: block is complete
                 else                        values.push_back( tag );    // value found: add to current block
             }
 
@@ -72,6 +72,39 @@ namespace Clutter {
             return false;
     }
 
+    // 
+    // Parse templace specializations
+    //
+    // -> Boolian specialization
+    template <>
+        void Clutter::parse( bool& value, CommandBlock &block ) 
+        {
+            // Test block size
+            if ( block.size() > 0 )
+                printf( "warning: orhpan value\n" );
+
+            // Flip value
+            value = !value;
+
+            // Mark as processed
+            block.processed = true;            
+        }
+
+    // -> String specialization
+    template <>
+        void Clutter::parse( string& value, CommandBlock &block )
+        {
+            // Test block size
+            if ( block.size() > 1 )
+                printf( "warning: orhpan value\n" );
+
+            // Flip value
+            value = block.values[0];
+
+            // Mark as processed
+            block.processed = true;            
+        }
+    
 
     // 
     // Parse termination function
