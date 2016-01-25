@@ -132,7 +132,7 @@ namespace Clutter {
                 printf( "warning: orhpan value\n" );
 
             // Flip value
-            value != value;
+            value = !value;
         }
 
     // Vector specialization
