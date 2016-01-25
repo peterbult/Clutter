@@ -9,6 +9,10 @@
 //
 
 #pragma once
+#include <vector>
+#include <map>
+
+#include "Blocks.h"
 
 namespace Clutter {
 
@@ -34,6 +38,9 @@ namespace Clutter {
             template <typename T>
                 void request( string tag, string label, T& value, string help );
 
+            template <typename T>
+                void parse( T& value, CommandBlock &block );
+
             void end_parse();
     
         private:
@@ -43,7 +50,7 @@ namespace Clutter {
             vector<HelpBlock>   mHelpTree_requested;
 
             // Command map
-            std::map<string, Block> > mCommandMap;
+            std::map<string, CommandBlock> > mCommandMap;
     };
 
 
@@ -100,6 +107,48 @@ namespace Clutter {
             parse( value, it );
 
             return;
+        }
+
+    template <typename T>
+        void Clutter::parse( T& value, CommandBlock& block )
+        {
+            // Test block size
+            if ( block.size() > 1 )
+                printf( "warning: orhpan value\n" );
+            
+            // Convert string to template type
+            fromString<T>( block.values[0] );
+            
+            // Mark block as processed
+            block.processed = true;
+        }
+
+    // Boolian specialization
+    template <>
+        void Clutter::parse( bool& value, CommandBlock &block ) 
+        {
+            // Test block size
+            if ( block.size() > 0 )
+                printf( "warning: orhpan value\n" );
+
+            // Flip value
+            value != value;
+        }
+
+    // Vector specialization
+    template <typename t>
+        void Clutter::parse( vector<T>& value, CommandBlock& block )
+        {
+            // Clear the values
+            values.clear();
+
+            // Convert string to template type
+            for ( auto& e : block.values ) {
+                value.push_back( fromString<T>( e ) );
+            }
+
+            // Mark as processed
+            block.processed = true;
         }
 }
 

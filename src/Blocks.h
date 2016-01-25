@@ -19,6 +19,9 @@ namespace Clutter {
         // Constructor
         CommandBlock()=default;
         CommandBlock( vector<string> _values ) : values(_values) { }
+
+        // Property functions
+        vector::size_type size() { return values.size(); }
     
         // Data members
         bool            processed = false;  // A state flag
