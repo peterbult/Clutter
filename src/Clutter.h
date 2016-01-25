@@ -81,7 +81,7 @@ namespace Clutter {
                 throw "error: parse failure: required option not found";
 
             // If found: parse the values 
-            parse( value, it );
+            parse( value, (it->second) );
 
             return;
         }
@@ -107,7 +107,7 @@ namespace Clutter {
                 return;
 
             // If found: parse the values 
-            parse( value, it );
+            parse( value, (it->second) );
 
             return;
         }
@@ -136,6 +136,18 @@ namespace Clutter {
 
             // Flip value
             value = !value;
+        }
+
+    // String specialization
+    template <>
+        void Clutter::parse( string& value, CommandBlock &block )
+        {
+            // Test block size
+            if ( block.size() > 1 )
+                printf( "warning: orhpan value\n" );
+
+            // Flip value
+            value = block.values[0];
         }
 
     // Vector specialization
