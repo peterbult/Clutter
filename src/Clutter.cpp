@@ -9,6 +9,7 @@
 //
 
 #include "Clutter.h"
+#include "Utils.h"
 
 namespace Clutter {
 
@@ -28,7 +29,7 @@ namespace Clutter {
             string flag = string( argv[i] );
 
             // Ensure the tag is a flag-type
-            if ( isValue( flag ) ) 
+            if ( Utils::isValue( flag ) ) 
                 throw "error: parsing error";
 
             // Ensure the flag does not alread exist
@@ -40,8 +41,8 @@ namespace Clutter {
                 // Load the next tag
                 tag = string( argv[i] );
                 // Test of tag type
-                if ( isFlag( tag ) )    break;                      // flag found: block is complete
-                else                    values.push_back( tag );    // value found: add to current block
+                if ( Utils::isFlag( tag ) ) break;                      // flag found: block is complete
+                else                        values.push_back( tag );    // value found: add to current block
             }
 
             // Store the tag & values as a block
@@ -56,7 +57,7 @@ namespace Clutter {
 
         // Set help flag
         if ( this->has_flag("-h") || this->has_flag("--help") ) {
-            mHelp = true;
+            mHelpFlag = true;
         }
     }
 
