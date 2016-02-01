@@ -63,6 +63,10 @@ int main(int argc, const char *argv[])
     {
         std::cout << e << std::endl;
     }
+    catch (std::exception& e)
+    {
+        std::cout << e.what() << std::endl;
+    }
 
     return 0;
 }
