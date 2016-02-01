@@ -8,6 +8,8 @@
 // Version 1.0
 //
 
+#include <algorithm>
+
 #include "Clutter.h"
 #include "Utils.h"
 
@@ -133,18 +135,18 @@ namespace Clutter {
     void Clutter::print_help()
     {
         // Resolve label width
-        int max_width = 0;
+        unsigned long max_width = 0;
 
         // Search the required tree
         for ( auto& block : mHelpTree_required )
-             max_width = std::max( max_width, block.label.size() )
+             max_width = std::max( max_width, block.label.size() );
 
         // Search the requested tree
         for ( auto& block : mHelpTree_requested )
-             max_width = std::max( max_width, block.label.size() )
+             max_width = std::max( max_width, block.label.size() );
 
         // Add two characters
-        max_width = std::max( 16, max_width+2 );
+        max_width = std::max( (unsigned long)(16), max_width+2 );
 
         // Print the help table
         printf( "Required arguments:\n" );
