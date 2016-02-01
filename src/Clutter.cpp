@@ -1,4 +1,4 @@
-// 
+//
 // Clutter.cpp
 // Clutter
 //
@@ -13,7 +13,7 @@
 
 namespace Clutter {
 
-    // 
+    //
     // Constructor
     //
     Clutter::Clutter( int argc, const char* argv[] )
@@ -29,7 +29,7 @@ namespace Clutter {
             string flag = string( argv[i] );
 
             // Ensure the tag is a flag-type
-            if ( Utils::isValue( flag ) ) 
+            if ( Utils::isValue( flag ) )
                 throw "error: parsing error";
 
             // Ensure the flag does not alread exist
@@ -37,7 +37,7 @@ namespace Clutter {
                 throw "error: duplicate flag";
 
             // Find the next flag (or the end of list)
-            for (i++; i < argc; i++) { 
+            for (i++; i < argc; i++) {
                 // Load the next tag
                 tag = string( argv[i] );
                 // Test of tag type
@@ -63,7 +63,7 @@ namespace Clutter {
 
     //
     // Support function
-    // 
+    //
     bool Clutter::has_flag( string flag )
     {
         if ( mCommandMap.count( flag ) == 1 )
@@ -72,12 +72,12 @@ namespace Clutter {
             return false;
     }
 
-    // 
+    //
     // Parse templace specializations
     //
     // -> Boolian specialization
     template <>
-        void Clutter::parse( bool& value, CommandBlock &block ) 
+        void Clutter::parse( bool& value, CommandBlock &block )
         {
             // Test block size
             if ( block.size() > 0 )
@@ -87,7 +87,7 @@ namespace Clutter {
             value = !value;
 
             // Mark as processed
-            block.processed = true;            
+            block.processed = true;
         }
 
     // -> String specialization
@@ -102,25 +102,20 @@ namespace Clutter {
             value = block.values[0];
 
             // Mark as processed
-            block.processed = true;            
+            block.processed = true;
         }
-    
 
-    // 
+    //
     // Parse termination function
     //
     void Clutter::end_parse()
     {
         // Check the help flag
         if ( mHelpFlag ) {
-            printf( "Required arguments:\n" );
-            for ( auto& block : mHelpTree_required )
-                block.print();
+            // Print the help table
+            print_help();
 
-            printf( "Optional arguments:\n" );
-            for ( auto& block : mHelpTree_requested )
-                block.print();
-
+            // Terminate program
             exit(0);
         }
 
@@ -131,5 +126,33 @@ namespace Clutter {
             }
         }
     }
-}
 
+    //
+    // Print help table
+    //
+    void Clutter::print_help()
+    {
+        // Resolve label width
+        int max_width = 0;
+
+        // Search the required tree
+        for ( auto& block : mHelpTree_required )
+             max_width = std::max( max_width, block.label.size() )
+
+        // Search the requested tree
+        for ( auto& block : mHelpTree_requested )
+             max_width = std::max( max_width, block.label.size() )
+
+        // Add two characters
+        max_width = std::max( 16, max_width+2 );
+
+        // Print the help table
+        printf( "Required arguments:\n" );
+        for ( auto& block : mHelpTree_required )
+            block.print( 6, max_width );
+
+        printf( "Optional arguments:\n" );
+        for ( auto& block : mHelpTree_requested )
+            block.print( 6, max_width );
+    }
+}
