@@ -16,9 +16,9 @@ namespace Clutter {
     void HelpBlock::print( int tag_size, int label_size )
     {
         std::string format = "  ";
-        format += "%%-" + std::to_string(tag_size) + "s; ";
-        format += "%%-" + std::to_string(label_size) + "s | ";
-        format += "%%s\n";
+        format += "%-" + std::to_string(tag_size) + "s; ";
+        format += "%-" + std::to_string(label_size) + "s | ";
+        format += "%s\n";
         printf( format.c_str(), tag.c_str(), label.c_str(), help.c_str() );
     }
 }
