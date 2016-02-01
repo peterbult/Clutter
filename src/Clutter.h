@@ -30,8 +30,7 @@ namespace Clutter {
             typedef std::string string;
 
         public:
-            bool has_flag( std::string flag );
-
+            // Declare public functions
             template <typename T>
                 void require( string tag, string label, T& value, string help );
 
@@ -41,13 +40,19 @@ namespace Clutter {
             template <typename T>
                 void request( string tag, string label, bool& toggle, T& value, string help );
 
+            void end_parse();
+
+        private:
+            // Declare internal functions
             template <typename T>
                 void parse( T& value, CommandBlock &block );
 
             template <typename T>
                 void parse( std::vector<T>& value, CommandBlock &block );
 
-            void end_parse();
+            void print_help();
+
+            bool has_flag( std::string flag );
 
         private:
             // Help members
