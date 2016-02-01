@@ -12,8 +12,9 @@
 #include <vector>
 #include <map>
 
+#include <CustomTools/Convert.h>
+
 #include "Blocks.h"
-#include "Convert.h"
 
 namespace Clutter {
 
@@ -162,7 +163,8 @@ namespace Clutter {
                 printf( "warning: orhpan value\n" );
 
             // Convert string to template type
-            value = fromString<T>( block.values[0] );
+            // value = fromString<T>( block.values[0] );
+            value = sto<T>( block.values[0] );
 
             // Mark block as processed
             block.processed = true;
@@ -183,4 +185,7 @@ namespace Clutter {
             // Mark as processed
             block.processed = true;
         }
+
+    // Forward declare other specializations
+    template <> void Clutter::parse<bool>( bool& value, CommandBlock& block );
 }
