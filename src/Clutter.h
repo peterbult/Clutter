@@ -1,4 +1,4 @@
-// 
+//
 // Clutter.h
 // Clutter
 //
@@ -17,7 +17,7 @@
 
 namespace Clutter {
 
-    // 
+    //
     // Clutter command line parser class
     //
     class Clutter {
@@ -39,13 +39,16 @@ namespace Clutter {
                 void request( string tag, string label, T& value, string help );
 
             template <typename T>
+                void request( string tag, string label, bool& toggle, T& value, string help );
+
+            template <typename T>
                 void parse( T& value, CommandBlock &block );
 
             template <typename T>
                 void parse( std::vector<T>& value, CommandBlock &block );
 
             void end_parse();
-    
+
         private:
             // Help members
             bool                    mHelpFlag = false;
@@ -80,7 +83,7 @@ namespace Clutter {
             if ( it == mCommandMap.end() )
                 throw "error: parse failure: required option not found";
 
-            // If found: parse the values 
+            // If found: parse the values
             parse( value, (it->second) );
 
             return;
@@ -106,8 +109,42 @@ namespace Clutter {
             if ( it == mCommandMap.end() )
                 return;
 
-            // If found: parse the values 
+            // If found: parse the values
             parse( value, (it->second) );
+
+            return;
+        }
+
+    template <typename T>
+        void Clutter::request( string tag, string label, bool& toggle, T& value, string help )
+        {
+            // Store the require in the help tree
+            mHelpTree_requested.emplace_back( tag, label, help );
+
+            // Check for help request
+            if ( mHelpFlag ) return;
+
+            // Check if short-format flag is present
+            auto it = mCommandMap.find( tag );
+
+            // If not: check if if the long-format flag is present
+            if ( it == mCommandMap.end() )
+                it = mCommandMap.find( label );
+
+            // If not: terminate the parse
+            if ( it == mCommandMap.end() )
+                return;
+
+            // If found: toggle the boolian
+            toggle = !toggle;
+
+            // If there is an argument in the block: parse to value
+            if (it->second.size() > 0) {
+                parse( value, (it->second) );
+            }
+            else { // Manually set processed flag
+                it->second.processed = true;
+            }
 
             return;
         }
@@ -118,10 +155,10 @@ namespace Clutter {
             // Test block size
             if ( block.size() > 1 )
                 printf( "warning: orhpan value\n" );
-            
+
             // Convert string to template type
             value = fromString<T>( block.values[0] );
-            
+
             // Mark block as processed
             block.processed = true;
         }
@@ -142,4 +179,3 @@ namespace Clutter {
             block.processed = true;
         }
 }
-
