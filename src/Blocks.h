@@ -1,4 +1,4 @@
-// 
+//
 // Blocks.h
 // Clutter
 //
@@ -23,7 +23,7 @@ namespace Clutter {
 
         // Property functions
         std::vector<string>::size_type size() { return values.size(); }
-    
+
         // Data members
         bool            processed = false;  // A state flag
 
@@ -39,7 +39,7 @@ namespace Clutter {
             : tag( _tag ), label( _label ), help( _help ) { }
 
         // Output function
-        void print();
+        void print( int tag_size, int label_size );
 
         // Data members
         string tag;       // The short 'tag' identifier
@@ -47,4 +47,3 @@ namespace Clutter {
         string help;      // The help message
     };
 }
-
