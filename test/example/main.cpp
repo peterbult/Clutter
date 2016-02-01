@@ -16,6 +16,10 @@ struct Settings {
 
     double      custom_pi   = 3.14159265359;
     bool        verbose     = false;
+
+    // Define option-with-value
+    bool        useConfig   = false;
+    std::string configPath  = "default.conf";
 };
 
 // Forward declarations
@@ -24,7 +28,7 @@ void core_program( Settings& args );
 // Main interface
 int main(int argc, const char *argv[])
 {
-    try 
+    try
     {
         // Initialize a settings container
         Settings args;
@@ -44,6 +48,10 @@ int main(int argc, const char *argv[])
         cl.request( "-s", "--paths",   args.search_paths,   "Give search paths" );
         cl.request( "",   "--custom",  args.custom_pi,      "Give your value of pi" );
         cl.request( "-v", "--verbose", args.verbose,        "Enable verbose mode" );
+        //
+        // ~~> Option-with-value user input:
+        //
+        cl.request( "", "--config", args.useConfig, args.configPath, "Enable custom config [default.conf]");
 
         // Finalize the parsing tree
         cl.end_parse();
@@ -63,12 +71,18 @@ int main(int argc, const char *argv[])
 void core_program( Settings& args )
 {
     // Print a header
-    std::cout << std::endl;
+    std::cout << std::boolalpha << std::endl;
     std::cout << " A test program!" <<std::endl;
     std::cout << std::endl;
 
     // Pseudo-read file
     std::cout << " > Reading input file [ " << args.filename << " ]" << std::endl;
+
+    // Loading custom config
+    std::cout << " > Use custom config: " << args.useConfig << std::endl;
+    if ( args.useConfig ) {
+        std::cout << " > Loading config [ " << args.configPath << " ]" << std::endl;
+    }
 
     // Wait for runtime
     for ( auto &path : args.search_paths ) {
@@ -83,4 +97,3 @@ void core_program( Settings& args )
     std::cout << " x pi.....: " << args.custom_pi << std::endl;
     std::cout << std::endl;
 }
-
