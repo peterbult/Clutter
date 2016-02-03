@@ -195,4 +195,5 @@ namespace Clutter {
 
     // Forward declare other specializations
     template <> void Clutter::parse<bool>( bool& value, CommandBlock& block );
+    template <> void Clutter::parse<std::string>( std::string& value, CommandBlock& block );
 }
