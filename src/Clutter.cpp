@@ -1,12 +1,7 @@
+// Clutter.cpp | Created on 24-01-2016
 //
-// Clutter.cpp
-// Clutter
-//
-// Created by PM Bult on 24-01-2016
-// Copyright (c) P.M. Bult. All rights reserved.
-//
-// Version 1.0
-//
+// Copyright (c) 2016 P.M. Bult
+// This work is provided under the MIT license
 
 #include <algorithm>
 

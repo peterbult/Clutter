@@ -1,3 +1,7 @@
+// example/main.cpp | Created on 23-01-2016
+//
+// Copyright (c) 2016 P.M. Bult
+// This work is provided under the MIT license
 
 #include <iostream>
 #include <thread>

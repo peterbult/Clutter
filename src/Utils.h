@@ -1,12 +1,7 @@
-// 
-// Utils.h
-// Clutter
+// Utils.h | Created on 24-01-2016
 //
-// Created by PM Bult on 24-01-2016
-// Copyright (c) P.M. Bult. All rights reserved.
-//
-// Version 1.0
-//
+// Copyright (c) 2016 P.M. Bult
+// This work is provided under the MIT license
 
 #pragma once
 #include <string>
@@ -24,4 +19,3 @@ namespace Clutter {
         tag_t getTagType( std::string tag );
     }
 }
-
