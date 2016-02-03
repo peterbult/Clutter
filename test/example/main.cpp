@@ -59,6 +59,7 @@ int main(int argc, const char *argv[])
 
         // Finalize the parsing tree
         cl.end_parse();
+        cl.redial( "a.out" );
 
         // Run the core program
         core_program( args );
