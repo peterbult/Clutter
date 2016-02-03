@@ -43,7 +43,7 @@ namespace Clutter {
                 // Load the next tag
                 tag = string( argv[i] );
                 // Test of tag type
-                if ( Utils::isFlag( tag ) ) { i--; break; }                    // flag found: block is complete
+                if ( Utils::isFlag( tag ) ) { i--; break; }             // flag found: block is complete
                 else                        values.push_back( tag );    // value found: add to current block
             }
 
@@ -97,6 +97,8 @@ namespace Clutter {
         void Clutter::parse( string& value, CommandBlock &block )
         {
             // Test block size
+            if ( block.size() == 0 )
+                throw "error: flag option is missing";
             if ( block.size() > 1 )
                 printf( "warning: orhpan value\n" );
 

@@ -90,6 +90,7 @@ namespace Clutter {
                 throw "error: parse failure: required option not found";
 
             // If found: parse the values
+            std::cerr << "Parse " << tag << " or " << label << std::endl;
             parse( value, (it->second) );
 
             return;
@@ -159,6 +160,8 @@ namespace Clutter {
         void Clutter::parse( T& value, CommandBlock& block )
         {
             // Test block size
+            if ( block.size() == 0 )
+                throw "error: flag option is missing";
             if ( block.size() > 1 )
                 printf( "warning: orhpan value\n" );
 
@@ -176,6 +179,10 @@ namespace Clutter {
         {
             // Clear the values
             value.clear();
+            
+            // Test block size
+            if ( block.size() == 0 )
+                throw "error: flag options are missing";
 
             // Convert string to template type
             for ( auto& e : block.values ) {
