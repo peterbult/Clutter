@@ -77,6 +77,15 @@ vector<string> search_paths;
 cl.request( "-s", "", search_paths, "Enter a list of search paths (space separated)" );
 ```
 
+At times it is also useful to at a `redial(...)` call to your interface.
+```cpp
+cl.redial( "executable.name" )
+``` 
+This function creates a one-line file called 'redial', stating how the program
+was last called. Aside from giving a nice bit of memory support, this allows the
+program to be easily run with the same settings by using the shell command
+`source redial`.
+
 ### Installation
 Look at the Makefile for install instructions. A proper config/make tool
 may follow later.
@@ -86,5 +95,3 @@ may follow later.
 Look in the `test/` folder for a set of miniature programs that test
 every option of the clutter interface. This folder also contains a
 complete worked example.
-
-
