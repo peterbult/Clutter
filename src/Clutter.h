@@ -37,6 +37,8 @@ namespace Clutter {
                 void request( string tag, string label, bool& toggle, T& value, string help );
 
             void end_parse();
+            
+            void redial( std::string name );
 
         private:
             // Declare internal functions

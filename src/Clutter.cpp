@@ -125,6 +125,32 @@ namespace Clutter {
             }
         }
     }
+    
+    //
+    // Redial function: store parameters to file
+    //
+    void Clutter::redial( std::string name )
+    {
+        // Create the redial file
+        FILE *os = fopen( "redial", "w" );
+        
+        // Set the program name
+        fprintf( os, "./%s ", name.c_str() );
+        
+        // Print the command map
+        for ( auto& map : mCommandMap ) {
+            // Print the key
+            fprintf( os, "%s ", map.first.c_str() );
+            // Print the values
+            for ( auto& v : map.second.values ) 
+                 fprintf( os, "%s ", v.c_str() ); 
+        }
+        // End the command line
+        fprintf( os, "\n" );
+        
+        // Close the file stream
+        fclose(os);
+    }
 
     //
     // Print help table
