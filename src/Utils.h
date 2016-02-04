@@ -9,13 +9,13 @@
 namespace Clutter {
     namespace Utils {
         // Define basic tag types
-        enum class tag_t { FLAG, VALUE };
+        enum class arg_t { FLAG, VALUE };
 
         // Support functions
-        bool isFlag( std::string tag );
+        bool isFlag( std::string );
         
-        bool isValue( std::string tag );            
+        bool isValue( std::string );            
 
-        tag_t getTagType( std::string tag );
+        arg_t getArgType( std::string );
     }
 }

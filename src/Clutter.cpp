@@ -17,15 +17,16 @@ namespace Clutter {
     {
         // Initialize processing variables
         string              flag;
-        string              tag;
+        string              argument;
         std::vector<string> values;
 
-        // Loop over all tags in the command line
+        // Loop over all arguments in the command line
+        // ~> Skip the executable name
         for (int i = 1; i < argc; ++i) {
-            // Convert the current entry to a tag
+            // Convert the current argument to a flag
             string flag = string( argv[i] );
 
-            // Ensure the tag is a flag-type
+            // Ensure the argument is indeed flag-type
             if ( Utils::isValue( flag ) )
                 throw "error: parsing error";
 
@@ -35,14 +36,14 @@ namespace Clutter {
 
             // Find the next flag (or the end of list)
             for (i++; i < argc; i++) {
-                // Load the next tag
-                tag = string( argv[i] );
-                // Test of tag type
-                if ( Utils::isFlag( tag ) ) { i--; break; }             // flag found: block is complete
-                else                        values.push_back( tag );    // value found: add to current block
+                // Load the next argument
+                argument = string( argv[i] );
+                // Test the argument type
+                if ( Utils::isFlag( argument ) ) { i--; break; }    // flag found: block is complete
+                else values.push_back( argument );                  // value found: add to current block
             }
 
-            // Store the tag & values as a block
+            // Store the flag & values as a CommandBlock
             mCommandMap.emplace( flag, CommandBlock(values) );
 
             // Clear the processing memory

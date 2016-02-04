@@ -12,16 +12,16 @@ namespace Clutter {
     namespace Utils {
 
         //
-        // Test if a string is a tag type
+        // Test if a string is a flag type
         //
-        bool isFlag( std::string tag )
+        bool isFlag( std::string arg )
         {
             // Test length
-            if ( tag.size() < 2 ) return false;
+            if ( arg.size() < 2 ) return false;
 
             // Test flag identifier
-            if ( tag[0] == '-' && isalpha(tag[1]) ) return true;  // '-3' is treated as a number
-            if ( tag[0] == '-' && tag[1] == '-'   ) return true;  // e.g. '--label'
+            if ( arg[0] == '-' && isalpha(arg[1]) ) return true;  // '-3' is treated as a number
+            if ( arg[0] == '-' && arg[1] == '-'   ) return true;  // e.g. '--label'
 
             // All tests failed
             return false;
@@ -30,25 +30,25 @@ namespace Clutter {
         // 
         // Test if a string is a value type
         //
-        bool isValue( std::string tag )
+        bool isValue( std::string arg )
         {
             // Test by inversion
-            return !isFlag(tag);
+            return !isFlag(arg);
         }
         
         // 
         // Retrieve the type of the string
         //
-        tag_t getTagType( std::string tag )
+        arg_t getArgType( std::string arg )
         {
-            // Check if the tag is well defined
-            if ( tag.empty() )                                          throw "Bad tag";
-            if ( tag.size() == 1 && tag[0] == '-' )                     throw "Bad tag";
-            if ( tag.size() == 2 && tag[0] == '-' && tag[1] == '-' )    throw "Bag tag";
+            // Check if the argument is well defined
+            if ( arg.empty() )                                          throw "Bad argument";
+            if ( arg.size() == 1 && arg[0] == '-' )                     throw "Bad flag";
+            if ( arg.size() == 2 && arg[0] == '-' && arg[1] == '-' )    throw "Bag flag";
 
-            // Check tag type
-            if ( isFlag( tag ) )    return tag_t::FLAG;
-            else                    return tag_t::VALUE;
+            // Check arg type
+            if ( isFlag( arg ) )    return arg_t::FLAG;
+            else                    return arg_t::VALUE;
         }
     }
 }

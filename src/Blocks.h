@@ -20,9 +20,9 @@ namespace Clutter {
         std::vector<string>::size_type size() { return values.size(); }
 
         // Data members
-        bool            processed = false;  // A state flag
+        bool processed = false;  // A state flag
 
-        std::vector<string>  values;             // The list of values
+        std::vector<string> values; // The list of values
     };
 
     struct HelpBlock {

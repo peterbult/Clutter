@@ -87,7 +87,6 @@ namespace Clutter {
                 throw "error: parse failure: required option not found";
 
             // If found: parse the values
-            std::cerr << "Parse " << tag << " or " << label << std::endl;
             parse( value, (it->second) );
 
             return;
