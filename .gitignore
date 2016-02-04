@@ -19,3 +19,6 @@ exc/
 # ignore build products
 build/
 
+# ignore redial products
+redial
+
