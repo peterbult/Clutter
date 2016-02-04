@@ -22,3 +22,6 @@ build/
 # ignore redial products
 redial
 
+# ignore documentation folder
+doc/
+
