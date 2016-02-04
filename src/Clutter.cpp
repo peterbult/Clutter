@@ -31,11 +31,11 @@ namespace Clutter {
 
             // Ensure the argument is indeed flag-type
             if ( Utils::isValue( flag ) )
-                throw "error: parsing error";
+                throw "parse error: invalid command line: option has no flag";
 
             // Ensure the flag does not alread exist
-            if ( mCommandMap.count( flag ) > 0 )
-                throw "error: duplicate flag";
+            if ( this->has_flag( flag ) )
+                throw "parse error: duplicate flag";
 
             // Find the next flag (or the end of list)
             for (i++; i < argc; i++) {
@@ -71,6 +71,62 @@ namespace Clutter {
             return true;
         else
             return false;
+    }
+    
+    bool Clutter::help_has_flag( string tag, string label )
+    {
+        // Search the required tree
+        for ( auto& block : mHelpTree_required ) {
+            if ( !block.tag.empty() && block.tag.compare(tag) == 0 )
+                return true;
+                
+            if ( !block.label.empty() && block.label.compare(label) == 0 )
+                return true;
+        }
+        
+        // Search the requested tree
+        for ( auto& block : mHelpTree_requested ) {
+            if ( !block.tag.empty() && block.tag.compare(tag) == 0 )
+                return true;
+                
+            if ( !block.label.empty() && block.label.compare(label) == 0 )
+                return true;
+        }
+            
+        // Flag not found
+        return false;
+    }
+    
+    Clutter::MapIterator Clutter::find_flag( string tag, string label )
+    {
+        // Search the Command Map for the tag position
+        auto it_tag = mCommandMap.find( tag );
+        
+        // Search the Command Map for the label position
+        auto it_label = mCommandMap.find( label );
+        
+        // Initialize final flag position
+        auto it = mCommandMap.end();
+        
+        // Safeguard: check if tag and/or label are found
+        if ( this->has_flag(tag) && this->has_flag(label) )
+            // Duplicate flag in command line
+            throw "parse error: duplicate flag";
+        
+        if ( it_tag == mCommandMap.end() && it_label == mCommandMap.end() )
+            // Flag is missing
+            return mCommandMap.end();
+        
+        if ( it_tag != mCommandMap.end() )
+            // Set tag for processing
+            return it_tag;
+        
+        if ( it_label != mCommandMap.end() )
+            // Set label for processing
+            return it_label;
+            
+        // Default exit: should not occur
+        return it;
     }
 
     //

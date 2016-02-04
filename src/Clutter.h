@@ -24,6 +24,7 @@ namespace Clutter {
         private:
             // Define internal aliases
             typedef std::string string;
+            typedef std::map<string, CommandBlock>::iterator MapIterator;
 
         public:
             // Declare public functions
@@ -51,6 +52,10 @@ namespace Clutter {
             void print_help();
 
             bool has_flag( std::string flag );
+            
+            bool help_has_flag( string, string );
+            
+            MapIterator find_flag( string, string );
 
         private:
             // Help members
@@ -72,24 +77,24 @@ namespace Clutter {
     template <typename T>
         void Clutter::require( string tag, string label, T& value, string help )
         {
+            // Safeguard: test require against the help tree
+            if ( help_has_flag( tag, label ) )
+                throw "logic error: duplicate flag in parse tree";
+            
             // Store the require in the help tree
             mHelpTree_required.emplace_back( tag, label, help );
-
+            
             // Check for help request
             if ( mHelpFlag ) return;
-
-            // Check if short-format flag is present
-            auto it = mCommandMap.find( tag );
-
-            // If not: check if if the long-format flag is present
+            
+            // Find the flag position in the Command Map
+            auto it = this->find_flag( tag, label );
+            
+            // Test if the flag is found
             if ( it == mCommandMap.end() )
-                it = mCommandMap.find( label );
-
-            // If not: throw a parse failure
-            if ( it == mCommandMap.end() )
-                throw "error: parse failure: required option not found";
-
-            // If found: parse the values
+                throw "parse error: required flag is missing";
+                
+            // Process the flag
             parse( value, (it->second) );
 
             return;
@@ -98,24 +103,24 @@ namespace Clutter {
     template <typename T>
         void Clutter::request( string tag, string label, T& value, string help )
         {
+            // Safeguard: test require against the help tree
+            if ( help_has_flag( tag, label ) )
+                throw "logic error: duplicate flag in parse tree";
+            
             // Store the require in the help tree
             mHelpTree_requested.emplace_back( tag, label, help );
 
             // Check for help request
             if ( mHelpFlag ) return;
+            
+            // Find the flag position in the Command Map
+            auto it = this->find_flag( tag, label );
 
-            // Check if short-format flag is present
-            auto it = mCommandMap.find( tag );
-
-            // If not: check if if the long-format flag is present
-            if ( it == mCommandMap.end() )
-                it = mCommandMap.find( label );
-
-            // If not: terminate the parse
+            // Test if the flag is found
             if ( it == mCommandMap.end() )
                 return;
 
-            // If found: parse the values
+            // Process the flag
             parse( value, (it->second) );
 
             return;
@@ -124,20 +129,20 @@ namespace Clutter {
     template <typename T>
         void Clutter::request( string tag, string label, bool& toggle, T& value, string help )
         {
+            // Safeguard: test require against the help tree
+            if ( help_has_flag( tag, label ) )
+                throw "logic error: duplicate flag in parse tree";
+            
             // Store the require in the help tree
             mHelpTree_requested.emplace_back( tag, label, help );
 
             // Check for help request
             if ( mHelpFlag ) return;
 
-            // Check if short-format flag is present
-            auto it = mCommandMap.find( tag );
+            // Find the flag position in the Command Map
+            auto it = this->find_flag( tag, label );
 
-            // If not: check if if the long-format flag is present
-            if ( it == mCommandMap.end() )
-                it = mCommandMap.find( label );
-
-            // If not: terminate the parse
+            // Test if the flag is found
             if ( it == mCommandMap.end() )
                 return;
 
