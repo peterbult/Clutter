@@ -20,6 +20,9 @@ namespace Clutter {
         string              argument;
         std::vector<string> values;
 
+        // Store the executable name
+        mExecutable = string( argv[0] );
+        
         // Loop over all arguments in the command line
         // ~> Skip the executable name
         for (int i = 1; i < argc; ++i) {
@@ -130,13 +133,13 @@ namespace Clutter {
     //
     // Redial function: store parameters to file
     //
-    void Clutter::redial( std::string name )
+    void Clutter::redial( std::string filename )
     {
         // Create the redial file
-        FILE *os = fopen( "redial", "w" );
+        FILE *os = fopen( filename.c_str(), "w" );
         
         // Set the program name
-        fprintf( os, "./%s ", name.c_str() );
+        fprintf( os, "%s ", mExecutable.c_str() );
         
         // Print the command map
         for ( auto& map : mCommandMap ) {

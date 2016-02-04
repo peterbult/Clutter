@@ -77,14 +77,14 @@ vector<string> search_paths;
 cl.request( "-s", "", search_paths, "Enter a list of search paths (space separated)" );
 ```
 
-At times it is also useful to at a `redial(...)` call to your interface.
-```cpp
-cl.redial( "executable.name" )
-``` 
+At times it is also useful to at a `cl.redial()` call to your interface.
 This function creates a one-line file called 'redial', stating how the program
 was last called. Aside from giving a nice bit of memory support, this allows the
 program to be easily run with the same settings by using the shell command
 `source redial`.
+
+The redial function takes an optional string argument that overrides the 
+redial-file name. 
 
 ### Installation
 Look at the Makefile for install instructions. A proper config/make tool

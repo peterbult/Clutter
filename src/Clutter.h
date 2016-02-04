@@ -38,7 +38,7 @@ namespace Clutter {
 
             void end_parse();
             
-            void redial( std::string name );
+            void redial( std::string filename="redial" );
 
         private:
             // Declare internal functions
@@ -57,6 +57,9 @@ namespace Clutter {
             bool                    mHelpFlag = false;
             std::vector<HelpBlock>  mHelpTree_required;
             std::vector<HelpBlock>  mHelpTree_requested;
+            
+            // Redial members
+            std::string mExecutable;
 
             // Command map
             std::map<string, CommandBlock> mCommandMap;
