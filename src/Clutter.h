@@ -79,7 +79,7 @@ namespace Clutter {
         {
             // Safeguard: test require against the help tree
             if ( help_has_flag( tag, label ) )
-                throw "logic error: duplicate flag in parse tree";
+                throw std::logic_error("logic error: duplicate flag in parse tree: " + tag + "/" + label);
             
             // Store the require in the help tree
             mHelpTree_required.emplace_back( tag, label, help );
@@ -92,10 +92,15 @@ namespace Clutter {
             
             // Test if the flag is found
             if ( it == mCommandMap.end() )
-                throw "parse error: required flag is missing";
+                throw std::runtime_error("parse error: required flag is missing: " + tag + "/" + label);
                 
             // Process the flag
-            parse( value, (it->second) );
+            try {
+                parse( value, (it->second) );
+            }
+            catch( const std::exception& e ) {
+                throw std::runtime_error("parse error: could not parse: " + tag + "/" + label + ": " + e.what() );
+            }
 
             return;
         }
@@ -105,7 +110,7 @@ namespace Clutter {
         {
             // Safeguard: test require against the help tree
             if ( help_has_flag( tag, label ) )
-                throw "logic error: duplicate flag in parse tree";
+                throw std::logic_error("logic error: duplicate flag in parse tree: " + tag + "/" + label);
             
             // Store the require in the help tree
             mHelpTree_requested.emplace_back( tag, label, help );
@@ -121,7 +126,12 @@ namespace Clutter {
                 return;
 
             // Process the flag
-            parse( value, (it->second) );
+            try {
+                parse( value, (it->second) );
+            }
+            catch( const std::exception& e ) {
+                throw std::runtime_error("parse error: could not parse: " + tag + "/" + label + ": " + e.what() );
+            }
 
             return;
         }
@@ -131,7 +141,7 @@ namespace Clutter {
         {
             // Safeguard: test require against the help tree
             if ( help_has_flag( tag, label ) )
-                throw "logic error: duplicate flag in parse tree";
+                throw std::logic_error("logic error: duplicate flag in parse tree");
             
             // Store the require in the help tree
             mHelpTree_requested.emplace_back( tag, label, help );
@@ -149,12 +159,16 @@ namespace Clutter {
             // If found: toggle the boolian
             toggle = !toggle;
 
-            // If there is an argument in the block: parse to value
-            if (it->second.size() > 0) {
-                parse( value, (it->second) );
+            try {
+                if (it->second.size() > 0) 
+                    // If there is an argument in the block: parse to value
+                    parse( value, (it->second) );
+                else
+                    // Manually set processed flagelse 
+                    it->second.processed = true;
             }
-            else { // Manually set processed flag
-                it->second.processed = true;
+            catch( const std::exception& e ) {
+                throw std::runtime_error("parse error: could not parse: " + tag + "/" + label + ": " + e.what() );
             }
 
             return;
@@ -165,9 +179,9 @@ namespace Clutter {
         {
             // Test block size
             if ( block.size() == 0 )
-                throw "error: flag option is missing";
+                throw std::runtime_error("flag argument missing");
             if ( block.size() > 1 )
-                printf( "warning: orhpan value\n" );
+                throw std::runtime_error("orphan argument: " + block.values[1] );
 
             // Convert string to template type
             // value = fromString<T>( block.values[0] );
@@ -186,7 +200,7 @@ namespace Clutter {
             
             // Test block size
             if ( block.size() == 0 )
-                throw "error: flag options are missing";
+                throw std::runtime_error("flag argument missing");
 
             // Convert string to template type
             for ( auto& e : block.values ) {

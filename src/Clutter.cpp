@@ -35,7 +35,7 @@ namespace Clutter {
 
             // Ensure the flag does not alread exist
             if ( this->has_flag( flag ) )
-                throw "parse error: duplicate flag";
+                throw std::runtime_error("parse error: duplicate flag: " + flag);
 
             // Find the next flag (or the end of list)
             for (i++; i < argc; i++) {
@@ -111,7 +111,7 @@ namespace Clutter {
         // Safeguard: check if tag and/or label are found
         if ( this->has_flag(tag) && this->has_flag(label) )
             // Duplicate flag in command line
-            throw "parse error: duplicate flag";
+            throw std::runtime_error("parse error: duplicate flag: " + tag + "/" + label);
         
         if ( it_tag == mCommandMap.end() && it_label == mCommandMap.end() )
             // Flag is missing
@@ -138,7 +138,8 @@ namespace Clutter {
         {
             // Test block size
             if ( block.size() > 0 )
-                printf( "warning: orhpan value\n" );
+                throw std::runtime_error("orphan argument: " + block.values[0] );
+                // printf( "warning: orhpan value\n" );
 
             // Flip value
             value = !value;
@@ -153,9 +154,10 @@ namespace Clutter {
         {
             // Test block size
             if ( block.size() == 0 )
-                throw "error: flag option is missing";
+                throw std::runtime_error("flag argument missing");
             if ( block.size() > 1 )
-                printf( "warning: orhpan value\n" );
+                throw std::runtime_error("orphan argument: " + block.values[1] );
+                // printf( "warning: orhpan value\n" );
 
             // Flip value
             value = block.values[0];
@@ -181,7 +183,7 @@ namespace Clutter {
         // Check orphan options
         for ( auto& map : mCommandMap ) {
             if ( !map.second.processed ) {
-                throw "error: orphan options";
+                throw std::runtime_error("parse error: unprocessed flag: " + map.first);
             }
         }
     }
