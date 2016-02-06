@@ -234,12 +234,16 @@ namespace Clutter {
         max_width = std::max( (unsigned long)(16), max_width+2 );
 
         // Print the help table
-        printf( "Required arguments:\n" );
+        if ( mHelpTree_required.size() > 0 )
+            printf( "Required arguments:\n" );
         for ( auto& block : mHelpTree_required )
             block.print( 6, max_width );
 
-        printf( "Optional arguments:\n" );
+        if ( mHelpTree_requested.size() > 0 )
+            printf( "Optional arguments:\n" );
         for ( auto& block : mHelpTree_requested )
             block.print( 6, max_width );
+            
+        std::cout << std::endl;
     }
 }
