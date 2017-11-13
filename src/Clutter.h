@@ -68,6 +68,9 @@ namespace Clutter {
 
             // Command map
             std::map<string, CommandBlock> mCommandMap;
+
+            // Redial member
+            std::vector<string> mRedial;
     };
 
 

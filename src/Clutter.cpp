@@ -22,6 +22,9 @@ namespace Clutter {
 
         // Store the executable name
         mExecutable = string( argv[0] );
+
+        // Store the redial
+        std::copy(argv + 1, argv + argc, std::back_inserter(mRedial));
         
         // Loop over all arguments in the command line
         // ~> Skip the executable name
@@ -198,15 +201,11 @@ namespace Clutter {
         
         // Set the program name
         fprintf( os, "%s ", mExecutable.c_str() );
-        
-        // Print the command map
-        for ( auto& map : mCommandMap ) {
-            // Print the key
-            fprintf( os, "%s ", map.first.c_str() );
-            // Print the values
-            for ( auto& v : map.second.values ) 
-                 fprintf( os, "%s ", v.c_str() ); 
+
+        for (auto &e : mRedial) {
+            fprintf(os, "%s ", e.c_str());
         }
+        
         // End the command line
         fprintf( os, "\n" );
         
